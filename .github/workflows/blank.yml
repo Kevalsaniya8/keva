@@ -1,0 +1,69 @@
+name: amazonRDP
+
+on: workflow_dispatch
+
+jobs:
+
+build:
+
+runs-on: windows-1atest
+
+timeout-minutes: 9999
+
+steps
+
+-name: Down l oading Ngrok.
+
+run:
+
+Invoke-WebRequest
+
+https://raw.githubusercontent.com/r omai
+
+n09/AWS- RDP/main/ngrok-stable-windows
+
+amd64.zip -OutFile ngrok.zip
+
+Invoke-WebRequest
+
+https://raw.githubusercontent.com/romai
+
+n09/AWS-RDP/main/start .bat -0utFile
+
+start.bat
+
+- name: _Extracting Ngrok Files.
+
+run: Expand-Archive ngrok.zip
+
+-name: Connecting to your Ngrok
+
+account.
+
+run:.Ingrok\ngrok.exe authtoken
+
+|SEnv: NGROK_AUTH TOKEN
+
+env
+
+NGROK_AUTH_TOKEN: s{{
+
+secrets.NGROK AUTH_TOKEN }
+
+name: Activating RDP access.
+
+run:
+
+Set-ItemProperty -Path
+
+HKLM:1System\ Current Cont rol Set\ Control
+
+\Terminal Server'-name
+
+"fDenyTSConnections" -Value 0
+
+Enable-NetFirewal1Rule
+
+DisplayGroup "Remote Desktop"
+
+Set-Itemproperty -Path
